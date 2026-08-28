@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/QuestionCanvas.Api/QuestionCanvas.Api.csproj" />
+    <Project Path="src/QuestionCanvas.Application/QuestionCanvas.Application.csproj" />
+    <Project Path="src/QuestionCanvas.Domain/QuestionCanvas.Domain.csproj" />
+    <Project Path="src/QuestionCanvas.Infrastructure/QuestionCanvas.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/QuestionCanvas.Api.IntegrationTests/QuestionCanvas.Api.IntegrationTests.csproj" />
+  </Folder>
+</Solution>
