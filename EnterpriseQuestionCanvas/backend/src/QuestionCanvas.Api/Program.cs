@@ -49,6 +49,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddScoped<IQuestionWorkspaceRepository, QuestionWorkspaceRepository>();
 builder.Services.AddScoped<IQuestionWorkspaceService, QuestionWorkspaceService>();
+builder.Services.AddScoped<IAlienAnswerImageService, AlienAnswerImageService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("frontend", policy =>

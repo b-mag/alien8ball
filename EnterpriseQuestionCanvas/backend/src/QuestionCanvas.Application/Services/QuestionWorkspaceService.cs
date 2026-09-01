@@ -7,7 +7,8 @@ using QuestionCanvas.Domain.Entities;
 namespace QuestionCanvas.Application.Services;
 
 public sealed class QuestionWorkspaceService(IQuestionWorkspaceRepository repository,
-    ICurrentUserService currentUser) : IQuestionWorkspaceService
+    ICurrentUserService currentUser,
+    IAlienAnswerImageService answerImageService) : IQuestionWorkspaceService
 {
     public async Task<ProjectSummaryDto> CreateProjectAsync(
         CreateProjectRequest request,
@@ -97,6 +98,28 @@ public sealed class QuestionWorkspaceService(IQuestionWorkspaceRepository reposi
 
         return new QuestionDto(question.Id, question.QuestionText, question.CreatedUtc);
     }
+
+    public async Task<byte[]> GetAnswerImageAsync(
+        Guid projectId,
+        Guid questionId,
+        CancellationToken cancellationToken)
+    {
+        var question = await repository.GetOwnedQuestionAsync(
+            projectId,
+            questionId,
+            currentUser.UserId,
+            cancellationToken);
+        if (question is null)
+        {
+            throw new NotFoundException("Question was not found.");
+        }
+
+        return answerImageService.GenerateAnswerImage(
+            projectId,
+            questionId,
+            question.QuestionText);
+    }
+
     private static ProjectSummaryDto ToSummary(QuestionProject project) =>
         new(
             project.Id,
