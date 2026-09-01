@@ -64,6 +64,20 @@ public class QuestionWorkspaceRepository(AppDbContext dbContext) : IQuestionWork
         dbContext.QuestionProjects
             .Where(p => p.Id == projectId && p.OwnerUserId == ownerUserId)
             .SingleOrDefaultAsync(cancellationToken);
+
+    public Task<QuestionEntry?> GetOwnedQuestionAsync(
+        Guid projectId,
+        Guid questionId,
+        string ownerUserId,
+        CancellationToken cancellationToken) =>
+        dbContext.QuestionEntries
+            .AsNoTracking()
+            .Where(q =>
+                q.Id == questionId &&
+                q.ProjectId == projectId &&
+                q.OwnerUserId == ownerUserId)
+            .SingleOrDefaultAsync(cancellationToken);
+
     public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         await dbContext.SaveChangesAsync(cancellationToken);

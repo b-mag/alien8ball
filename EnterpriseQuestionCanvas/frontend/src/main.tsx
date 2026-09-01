@@ -4,6 +4,8 @@ import './index.css'
 import App from './App'
 import { AuthProvider } from './auth/AuthContext'
 import { AppErrorBoundary } from './components/AppErrorBoundary'
+
+/** Bootstraps the React application with auth and error boundary providers. */
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AppErrorBoundary>

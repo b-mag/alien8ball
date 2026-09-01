@@ -17,4 +17,8 @@ public interface IQuestionWorkspaceService
         Guid projectId,
         CreateQuestionRequest request,
         CancellationToken cancellationToken);
+    Task<byte[]> GetAnswerImageAsync(
+        Guid projectId,
+        Guid questionId,
+        CancellationToken cancellationToken);
 }

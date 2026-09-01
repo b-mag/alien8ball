@@ -64,4 +64,18 @@ public sealed class ProjectsController(IQuestionWorkspaceService service) : Cont
             $"/api/projects/{projectId}/questions/{question.Id}",
             question);
     }
+
+    [HttpGet("{projectId:guid}/questions/{questionId:guid}/answer-image")]
+    public async Task<IActionResult> GetAnswerImage(
+        Guid projectId,
+        Guid questionId,
+        CancellationToken cancellationToken)
+    {
+        var imageBytes = await service.GetAnswerImageAsync(
+            projectId,
+            questionId,
+            cancellationToken);
+
+        return File(imageBytes, "image/png");
+    }
 }

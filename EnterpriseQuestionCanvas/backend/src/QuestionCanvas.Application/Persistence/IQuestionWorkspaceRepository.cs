@@ -26,5 +26,10 @@ public interface IQuestionWorkspaceRepository
         Guid projectId,
         string ownerUserId,
         CancellationToken cancellationToken);
+    Task<QuestionEntry?> GetOwnedQuestionAsync(
+        Guid projectId,
+        Guid questionId,
+        string ownerUserId,
+        CancellationToken cancellationToken);
     Task SaveChangesAsync(CancellationToken cancellationToken);
 }

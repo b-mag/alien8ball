@@ -1,0 +1,15 @@
+meta {
+  name: Get Answer Image
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/projects/{{projectId}}/questions/{{questionId}}/answer-image
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}
