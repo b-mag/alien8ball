@@ -20,15 +20,34 @@ public class QuestionWorkspaceRepository(AppDbContext dbContext) : IQuestionWork
         await dbContext.QuestionProjects.AddAsync(project, cancellationToken);
     }
 
+    public async Task AddQuestionAsync(QuestionEntry question, CancellationToken cancellationToken)
+    {
+        // Add explicitly so EF marks the entity state as Added and issues an
+        // INSERT. The QuestionEntry.Id is client-generated (Guid.NewGuid()),
+        // so adding via the parent collection can make EF treat it as an
+        // existing row and attempt an UPDATE instead.
+        await dbContext.QuestionEntries.AddAsync(question, cancellationToken);
+    }
+
     public async Task<IReadOnlyList<QuestionProject>> ListOwnedProjectsAsync(
          string ownerUserId,
-         CancellationToken cancellationToken) =>
-         await dbContext.QuestionProjects
-             .AsNoTracking()
-             .Where(p => p.OwnerUserId == ownerUserId)
-             .Include(p => p.Questions)
-             .OrderByDescending(p => p.CreatedUtc)
-             .ToListAsync(cancellationToken);
+         CancellationToken cancellationToken)
+    {
+        // Materialize the query first, then order in memory. Ordering by a
+        // DateTimeOffset column inside the provider-translated query is not
+        // supported by all providers (e.g. SQLite cannot translate ORDER BY
+        // over DateTimeOffset). Sorting after materialization keeps this
+        // provider-agnostic while preserving newest-first ordering.
+        var projects = await dbContext.QuestionProjects
+            .AsNoTracking()
+            .Where(p => p.OwnerUserId == ownerUserId)
+            .Include(p => p.Questions)
+            .ToListAsync(cancellationToken);
+
+        return projects
+            .OrderByDescending(p => p.CreatedUtc)
+            .ToList();
+    }
     public Task<QuestionProject?> GetOwnedProjectDetailsAsync(
         Guid projectId,
         string ownerUserId,

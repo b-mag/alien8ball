@@ -34,6 +34,9 @@ public sealed class QuestionWorkspaceService(IQuestionWorkspaceRepository reposi
             OwnerUserId = currentUser.UserId,
         };
 
+        await repository.AddProjectAsync(project, cancellationToken);
+        await repository.SaveChangesAsync(cancellationToken);
+
         return ToSummary(project);
 
     }
@@ -89,7 +92,7 @@ public sealed class QuestionWorkspaceService(IQuestionWorkspaceRepository reposi
             OwnerUserId = currentUser.UserId
         };
 
-        project.Questions.Add(question);
+        await repository.AddQuestionAsync(question, cancellationToken);
         await repository.SaveChangesAsync(cancellationToken);
 
         return new QuestionDto(question.Id, question.QuestionText, question.CreatedUtc);

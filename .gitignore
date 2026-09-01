@@ -102,3 +102,6 @@ coverage/
 # Editor / OS
 .DS_Store
 Thumbs.db
+
+# Kiro
+.kiro/

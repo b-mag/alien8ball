@@ -12,6 +12,9 @@ public interface IQuestionWorkspaceRepository
     Task AddProjectAsync(
         QuestionProject project,
         CancellationToken cancellationToken);
+    Task AddQuestionAsync(
+        QuestionEntry question,
+        CancellationToken cancellationToken);
     Task<IReadOnlyList<QuestionProject>> ListOwnedProjectsAsync(
         string ownerUserId,
         CancellationToken cancellationToken);
