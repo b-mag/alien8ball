@@ -20,14 +20,14 @@ public sealed class ProjectsController(IQuestionWorkspaceService service) : Cont
 
         return Ok(projects);
     }
-    
+
     [HttpGet("{projectId:guid}")]
     public async Task<ActionResult<ProjectDetailsDto>> GetById(
         Guid projectId,
         CancellationToken cancellationToken)
     {
         var project = await service.GetProjectAsync(
-            projectId, 
+            projectId,
             cancellationToken);
 
         return Ok(project);
@@ -39,14 +39,14 @@ public sealed class ProjectsController(IQuestionWorkspaceService service) : Cont
         CancellationToken cancellationToken)
     {
         var project = await service.CreateProjectAsync(
-            request, 
-            cancellationToken); 
-        
+            request,
+            cancellationToken);
+
         return CreatedAtAction(
-            nameof(GetById), 
-            new { projectId = project.Id }, 
+            nameof(GetById),
+            new { projectId = project.Id },
             project);
-        
+
     }
 
     [HttpPost("{projectId:guid}/questions")]
@@ -56,12 +56,12 @@ public sealed class ProjectsController(IQuestionWorkspaceService service) : Cont
         CancellationToken cancellationToken)
     {
         var question = await service.AddQuestionAsync(
-            projectId, 
-            request, 
+            projectId,
+            request,
             cancellationToken);
 
         return Created(
-            $"/api/projects/{projectId}/questions/{question.Id}", 
+            $"/api/projects/{projectId}/questions/{question.Id}",
             question);
     }
 }

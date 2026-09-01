@@ -20,11 +20,11 @@ public sealed class QuestionWorkspaceService(IQuestionWorkspaceRepository reposi
         }
 
         var normalizedName = projectName.ToUpperInvariant();
-        var exists = await repository.ProjectNameExistsForUserAsync(currentUser.UserId, normalizedName, cancellationToken); 
+        var exists = await repository.ProjectNameExistsForUserAsync(currentUser.UserId, normalizedName, cancellationToken);
 
         if (exists)
         {
-             throw new ConflictException("You already have a project with that name.");
+            throw new ConflictException("You already have a project with that name.");
         }
 
         var project = new QuestionProject
@@ -47,10 +47,10 @@ public sealed class QuestionWorkspaceService(IQuestionWorkspaceRepository reposi
 
     public async Task<ProjectDetailsDto> GetProjectAsync(Guid projectId, CancellationToken cancellationToken)
     {
-            var project = await repository.GetOwnedProjectDetailsAsync(
-            projectId,
-            currentUser.UserId,
-            cancellationToken);
+        var project = await repository.GetOwnedProjectDetailsAsync(
+        projectId,
+        currentUser.UserId,
+        cancellationToken);
         if (project is null)
         {
             throw new NotFoundException("Project was not found.");
@@ -71,7 +71,7 @@ public sealed class QuestionWorkspaceService(IQuestionWorkspaceRepository reposi
         CancellationToken cancellationToken)
     {
         var questionText = request.Question.Trim();
-        if(questionText.Length < 1 || questionText.Length > 2000)
+        if (questionText.Length < 1 || questionText.Length > 2000)
         {
             throw new AppValidationException("Question must be between 1 and 2000 characters.");
         }
@@ -80,7 +80,7 @@ public sealed class QuestionWorkspaceService(IQuestionWorkspaceRepository reposi
         if (project is null)
         {
             throw new NotFoundException("Project not found.");
-        } 
+        }
 
         var question = new QuestionEntry
         {
@@ -89,7 +89,7 @@ public sealed class QuestionWorkspaceService(IQuestionWorkspaceRepository reposi
             OwnerUserId = currentUser.UserId
         };
 
-        project.Questions.Add(question);    
+        project.Questions.Add(question);
         await repository.SaveChangesAsync(cancellationToken);
 
         return new QuestionDto(question.Id, question.QuestionText, question.CreatedUtc);
@@ -100,4 +100,4 @@ public sealed class QuestionWorkspaceService(IQuestionWorkspaceRepository reposi
             project.Name,
             project.Questions.Count,
             project.CreatedUtc);
-    }
+}

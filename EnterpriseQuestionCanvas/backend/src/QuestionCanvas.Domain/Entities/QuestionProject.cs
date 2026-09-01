@@ -6,7 +6,7 @@ namespace QuestionCanvas.Domain.Entities
         public string Name { get; set; } = string.Empty;
         public string NormalizedName { get; set; } = string.Empty;
         public string OwnerUserId { get; set; } = string.Empty;
-  
+
         public DateTimeOffset CreatedUtc { get; set; } = DateTime.UtcNow;
 
         public List<QuestionEntry> Questions { get; set; } = [];

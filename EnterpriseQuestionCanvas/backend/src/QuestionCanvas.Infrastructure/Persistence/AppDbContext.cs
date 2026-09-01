@@ -25,7 +25,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
 
             entity.Property(x => x.OwnerUserId).IsRequired().HasMaxLength(450);
 
-            entity.HasIndex(x => new{x.OwnerUserId, x.NormalizedName}).IsUnique();
+            entity.HasIndex(x => new { x.OwnerUserId, x.NormalizedName }).IsUnique();
 
             entity.HasMany(x => x.Questions)
                 .WithOne(q => q.Project)
@@ -42,7 +42,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : Ident
 
             entity.Property(x => x.OwnerUserId).IsRequired().HasMaxLength(450);
 
-            entity.HasIndex(x => new{x.ProjectId, x.CreatedUtc}).IsUnique();
+            entity.HasIndex(x => new { x.ProjectId, x.CreatedUtc }).IsUnique();
 
             entity.HasOne<ApplicationUser>().WithMany().HasForeignKey(x => x.OwnerUserId).OnDelete(DeleteBehavior.Cascade);
         });

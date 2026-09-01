@@ -1,6 +1,7 @@
 using QuestionCanvas.Application.Contracts;
 
 namespace QuestionCanvas.Application.Services;
+
 public interface IQuestionWorkspaceService
 {
 

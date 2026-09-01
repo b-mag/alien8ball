@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 public sealed class BasicApiTests : IClassFixture<WebApplicationFactory<Program>>
 {
-     private readonly HttpClient _client;
+    private readonly HttpClient _client;
     public BasicApiTests(WebApplicationFactory<Program> factory)
     {
         _client = factory.CreateClient();

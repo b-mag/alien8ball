@@ -34,7 +34,7 @@ public sealed class GlobalExceptionHandler(IProblemDetailsService problemDetails
             "Request failed with status {StatusCode}. TraceId: {TraceId}", status, httpContext.TraceIdentifier);
         }
 
-        httpContext.Response.StatusCode = status;   
+        httpContext.Response.StatusCode = status;
 
         //Information disclosure: The 500 response does not return the exception message or stack trace. Detailed 
         //    exceptions belong in server logs, not in production API responses.
@@ -46,19 +46,19 @@ public sealed class GlobalExceptionHandler(IProblemDetailsService problemDetails
             Detail = status >= 500
                 ? "An unexpected error occurred."
                 : exception.Message,
-            Instance = httpContext.Request.Path 
+            Instance = httpContext.Request.Path
         };
 
         problem.Extensions["traceId"] = httpContext.TraceIdentifier;
 
         await problemDetailsService.WriteAsync(new ProblemDetailsContext
         {
-           HttpContext = httpContext,
-           ProblemDetails = problem,
-           Exception = exception 
+            HttpContext = httpContext,
+            ProblemDetails = problem,
+            Exception = exception
         });
 
         return true;
     }
-    
+
 }
